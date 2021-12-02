@@ -22,7 +22,7 @@ func main() {
 	}
 
 	commands := getCommandsFrom(scanner)
-	horizontalPosition, depth := getTotalHorizontalPositionAndDepth(commands)
+	horizontalPosition, depth := getTotalHorizontalPositionAndAim(commands)
 	multipled := horizontalPosition * depth
 	fmt.Println(multipled)
 }
@@ -47,17 +47,19 @@ func getCommandsFrom(scanner *bufio.Scanner) []Command {
 	return commands
 }
 
-func getTotalHorizontalPositionAndDepth(commands []Command) (int, int) {
+func getTotalHorizontalPositionAndAim(commands []Command) (int, int) {
 	position := 0
 	depth := 0
+	aim := 0
 	for _, command := range commands {
 		switch command.direction {
 		case "forward":
 			position += command.unit
+			depth += aim * command.unit
 		case "down":
-			depth += command.unit
+			aim += command.unit
 		case "up":
-			depth -= command.unit
+			aim -= command.unit
 		}
 	}
 	return position, depth
